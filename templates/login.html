@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block customcss %}
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+<form action="" method="POST" class="form-signin">
+{% csrf_token %}
+{{form.as_p}}
+<input type="submit" value="ログイン" class="btn btn-primary btn-block">
+</form>
+
+{% endblock content %}

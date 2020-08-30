@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4">Kappashift</h1>
+        <p class="lead">ここには説明文が入ります</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container justify-content-center mt-5">
+    <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body"> 
+                    <h5 class="card-title">過去シフト閲覧</h5>
+                    <p class="card-text">過去に作ったシフトを閲覧できます。</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body"> 
+                    <h5 class="card-title">新規シフト作成</h5>
+                    <p class="card-text">過去に作ったシフトを閲覧できます。</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body"> 
+                    <h5 class="card-title">選手情報登録</h5>
+                    <p class="card-text">所属する部員の情報を登録・編集します。</p>
+                    <a href="{% url 'member' %}" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
