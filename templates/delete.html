@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">選手リスト</h1>
+        <p class="lead">現在、東京大学運動会水泳部に所属している部員のリストです。</p>
+        <p class="lead">新規登録の際は下の追加ボタンよりお願いします。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container justify-content-center">
+    <div class="row">
+        <form method="post">
+        {% csrf_token %}
+        <p>{{object.last_name}} {{object.first_name}} を削除します。よろしいですか？</p>
+            <input class="btn btn-danger" type="submit" value="削除する">
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -3,8 +3,9 @@
 {% block header %}
 <header class="jumbotron jumbotron-fluid">
     <div class="container p-5">
-        <h1 class="display-4">選手情報登録</h1>
-        <p class="lead">ここには説明文が入ります</p>
+        <h1 class="display-4 mb-3">選手リスト</h1>
+        <p class="lead">現在、東京大学運動会水泳部に所属している部員のリストです。</p>
+        <p class="lead">新規登録の際は下の追加ボタンよりお願いします。</p>
     </div>
 </header>
 {% endblock header %}
@@ -18,6 +19,8 @@
         <th>性別</th>
         <th>学年</th>
         <th>種別</th>
+        <th></th>
+        <th></th>
     </tr>
     {% for item in object_list %}
     <tr>
@@ -26,8 +29,11 @@
         <td>{{item.sex}}</td>
         <td>{{item.grade}}</td>
         <td>{{item.member_type}}</td>
+        <td><a href="{% url 'update' item.pk %}" class="text-secondary">編集</a></td>
+        <td><a href="{% url 'delete' item.pk %}" class="text-secondary">削除</a></td>
     </tr>
     {% endfor %}
 </table>
+<a href="{% url 'create' %}" class="btn btn-primary float-right">+ 追加</a>
 </div>
 {% endblock content %}

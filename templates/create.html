@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">選手情報登録</h1>
+        <p class="lead">選手の氏名・性別・学年・種別を入力してください</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="form-group col-6">
+                    <label for="inputLastName">姓</label>
+                    <p>{{form.last_name|add_class:"form-control"}}</p>
+                </div>
+                <div class="form-group col-6">
+                    <label for="inputFirstName">名</label>
+                    <p>{{form.first_name|add_class:"form-control"}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label for="inputSex">性別</label>
+                    <p>{{form.sex|add_class:"form-control"}}</p>
+                </div>
+                <div class="form-group col-4">
+                    <label for="inputGrade">学年</label>
+                    <p>{{form.grade|add_class:"form-control"}}</p>
+                </div>
+                <div class="form-group col-5">
+                    <label for="inputType">種別</label>
+                    <p>{{form.member_type|add_class:"form-control"}}</p>
+                </div>
+            </div>
+            <div class="form-group mt-5">
+                <input type="submit" value="追加" class="form-control btn btn-primary">
+            </div>
+        </div>
+    </form>
+
+    <a href="{% url 'member' %}" class="float-right">一覧に戻る</a>
+</div>
+
+{% endblock content %}
