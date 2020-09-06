@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">試合情報登録</h1>
+        <p class="lead">試合のデータを登録してください</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <form action="" method="POST">{% csrf_token %}
+        <div class="container">
+            <div class="row">
+                <div class="form-group col-12">
+                    <label for="inputName">名称</label>
+                    <p>{{form.name|add_class:"form-control"|attr:"list:competition_names"}}
+                    <datalist id="competition_names">
+                    {% for name in name_suggest %}
+                        <option value="{{name}}"></option>
+                    {% endfor %}    
+                    </datalist>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-3">
+                    <label for="inputYear">年</label>
+                    <p>{{form.year|add_class:"form-control"}}</p>
+                </div>
+                <div class="form-group col-3">
+                    <label for="inputStartDate">開始日</label>
+                    <p>{{form.start_date|add_class:"form-control"|attr:"type:date"}}</p>
+                </div>
+                <div class="form-group col-3">
+                    <label for="inputEndDate">終了日</label>
+                    <p>{{form.end_date|add_class:"form-control"|attr:"type:date"}}</p>
+                </div>
+                <div class="form-group col-3">
+                    <label for="inputDays">日数</label>
+                    <p>{{form.days|add_class:"form-control"}}</p>
+                </div>
+            </div>
+            <div class="form-group mt-5">
+                <input type="submit" value="追加" class="form-control btn btn-primary">
+            </div>
+        </div>
+    </form>
+
+    <a href="{% url 'top' %}" class="float-right">トップページに戻る</a>
+</div>
+{% endblock content %}
