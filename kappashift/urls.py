@@ -18,5 +18,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('shift/', include('shiftmakeapp.urls', namespace='shift')),
     path('', include('kappashiftapp.urls'))
 ]
