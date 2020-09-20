@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">タイムテーブル登録</h1>
+        <p class="lead">試合のタイムテーブルを登録してください</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+<div class="container">
+    <div class="suggestion">
+        <form action="{% url 'shift:suggest' pk %}" method="POST" class="form-inline">{% csrf_token %}
+            <label class="m-3">過去の試合データを参照</label>
+            <select name="competition" class="form-control m-3">
+                {% for s in suggest %}
+                    <option value={{s.id}}>{{s.year}}{{s.name}}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="表示" class="form-control m-3">
+        </form>
+    </div>
+    <table class="table mt-5" id="table">
+        <tr>
+            <th>性別</th>
+            <th>距離</th>
+            <th>泳法</th>
+            <th>開始時刻</th>
+        </tr>
+        <form action="" method="post" id="form-table" data-length="{{ object_list|length }}">
+            {% for item in object_list %}
+                <tr id="form-row[{{ forloop.counter0 }}]">
+                    <td>
+                        <select name="sex[{{ forloop.counter0 }}]" for="inputSex"　placeholder="{{item.event.sex}}" class="form-control sex">
+                            <option value="M">M</option>
+                            <option value="M">W</option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="number" name="distance[{{ forloop.counter0 }}]" for="inputDistance" placeholder="{{item.event.distance}}" class="form-control distance">
+                    </td>
+                    <td>
+                    <select name="style[{{ forloop.counter0 }}]" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
+                        <option value="Fr">Fr</option>
+                        <option value="Ba">Ba</option>
+                        <option value="Br">Br</option>
+                        <option value="Fly">Fly</option>
+                        <option value="IM">IM</option>
+                        <option value="FR">FR</option>
+                        <option value="MR">MR</option>
+                    </select></td>
+                    <td>
+                        <input type="datetime" name="start_time[{{ forloop.counter0 }}]" placeholder="{{item.start_time}}" class="form-control start_time">
+                    </td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div class="form-add" id="form_add">
+                        <span class="add btn btn-info" title="Add">+</span>
+                    </div>
+                </td>
+            </tr>
+        </form>
+    </table>
+</div>
+
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'app.js' %}"></script>
+{% endblock script %}
