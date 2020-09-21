@@ -63,4 +63,8 @@ def timetableregister(request, pk):
             p = ShiftModel(competition=competition,
                            event=event, start_time=item[3])
             p.save()
-        return render(request, 'top.html')
+        return redirect('shift:entry')
+
+
+def entryfunc(request):
+    return render(request, 'entry.html')

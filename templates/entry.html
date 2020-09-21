@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">エントリーデータ登録</h1>
+        <p class="lead">各選手のエントリー種目を登録してください。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <table class="table mt-5" id="table">
+        <tr>
+            <th>名前</th>
+            <th>性別</th>
+            <th>距離</th>
+            <th>泳法</th>
+        </tr>
+        <form action="">
+        <tr>
+            <td>name</td>
+            <td>sex</td>
+            <td><input type="number" name="" class="form-control"></td>
+            <td>
+                <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
+                    <option value="Fr">Fr</option>
+                    <option value="Ba">Ba</option>
+                    <option value="Br">Br</option>
+                    <option value="Fly">Fly</option>
+                    <option value="IM">IM</option>
+                    <option value="FR">FR</option>
+                    <option value="MR">MR</option>
+                </select>
+            </td>
+            <td>
+            <div class="form-add" id="form_add">
+                <span class="add btn btn-info" title="Add">+</span>
+            </div>
+            </td>
+        </tr>
+        </form>
+    </table>
+</div>
+
+{% endblock content %}
