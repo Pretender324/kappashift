@@ -36,7 +36,7 @@ class ShiftModel(models.Model):
         'CompetitionModel', on_delete=models.CASCADE)
     event = models.ForeignKey('EventModel', on_delete=models.CASCADE)
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    member_count = models.IntegerField()
+    member_count = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.competition) + str(self.event)

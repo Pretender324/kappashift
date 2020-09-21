@@ -14,11 +14,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShiftModel',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('start_time', models.TimeField()),
                 ('member_count', models.IntegerField()),
-                ('competition', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shiftmakeapp.competitionmodel')),
-                ('event', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='shiftmakeapp.eventmodel')),
+                ('competition', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='shiftmakeapp.competitionmodel')),
+                ('event', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE, to='shiftmakeapp.eventmodel')),
             ],
         ),
     ]

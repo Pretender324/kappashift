@@ -32,20 +32,20 @@
             <th>泳法</th>
             <th>開始時刻</th>
         </tr>
-        <form action="" method="post" id="form-table" data-length="{{ object_list|length }}">
+        <form action="{% url 'shift:register' pk %}" method="post" id="form-table" data-length="{{ object_list|length }}">{% csrf_token %}
             {% for item in object_list %}
-                <tr id="form-row[{{ forloop.counter0 }}]">
+                <tr id="form-row">
                     <td>
-                        <select name="sex[{{ forloop.counter0 }}]" for="inputSex"　placeholder="{{item.event.sex}}" class="form-control sex">
+                        <select name="sex" for="inputSex"　placeholder="{{item.event.sex}}" class="form-control sex">
                             <option value="M">M</option>
                             <option value="M">W</option>
                         </select>
                     </td>
                     <td>
-                        <input type="number" name="distance[{{ forloop.counter0 }}]" for="inputDistance" placeholder="{{item.event.distance}}" class="form-control distance">
+                        <input type="number" name="distance" for="inputDistance" value="{{item.event.distance}}" class="form-control distance">
                     </td>
                     <td>
-                    <select name="style[{{ forloop.counter0 }}]" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
+                    <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
                         <option value="Fr">Fr</option>
                         <option value="Ba">Ba</option>
                         <option value="Br">Br</option>
@@ -55,7 +55,7 @@
                         <option value="MR">MR</option>
                     </select></td>
                     <td>
-                        <input type="datetime" name="start_time[{{ forloop.counter0 }}]" placeholder="{{item.start_time}}" class="form-control start_time">
+                        <input type="datetime" name="start_time" value="{{item.start_time|date:"h:i"}}" class="form-control start_time">
                     </td>
                 </tr>
             {% endfor %}
@@ -67,6 +67,17 @@
                 <td>
                     <div class="form-add" id="form_add">
                         <span class="add btn btn-info" title="Add">+</span>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>
+                    <div>
+                        <input type="submit" value="登録" class="form-control">
                     </div>
                 </td>
             </tr>

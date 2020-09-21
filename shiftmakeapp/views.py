@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib import messages
-from .models import CompetitionModel, ShiftModel
+from .models import CompetitionModel, ShiftModel, EventModel
 
 # Create your views here.
 
@@ -44,8 +44,23 @@ def timetableupdatefunc(request, pk):
 def timetablesuggest(request, pk):
     if request.method == 'POST':
         competition = request.POST['competition']
-        print(competition)
         object_list = ShiftModel.objects.filter(competition__id=competition)
     suggest = CompetitionModel.objects.all()
-    print(object_list)
     return render(request, 'timetable.html', {'suggest': suggest, 'pk': pk, 'object_list': object_list})
+
+
+def timetableregister(request, pk):
+    if request.method == 'POST':
+        sex = request.POST.getlist('sex')
+        distance = request.POST.getlist('distance')
+        style = request.POST.getlist('style')
+        start_time = request.POST.getlist('start_time')
+        competition = CompetitionModel.objects.get(pk=pk)
+        ShiftModel.objects.filter(competition=competition).delete()
+        for item in zip(sex, distance, style, start_time):
+            event = EventModel.objects.filter(
+                sex=item[0], distance=item[1], style=item[2]).get()
+            p = ShiftModel(competition=competition,
+                           event=event, start_time=item[3])
+            p.save()
+        return render(request, 'top.html')
