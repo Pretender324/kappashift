@@ -1,4 +1,5 @@
 from django.db import models
+from kappashiftapp.models import MemberModel
 
 # Create your models here.
 
@@ -40,3 +41,11 @@ class ShiftModel(models.Model):
 
     def __str__(self):
         return str(self.competition) + str(self.event)
+
+
+class EntryModel(models.Model):
+    member = models.ForeignKey(MemberModel, on_delete=models.CASCADE)
+    shift = models.ForeignKey('ShiftModel', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.shift) + str(self.member)

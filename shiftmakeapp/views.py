@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib import messages
 from .models import CompetitionModel, ShiftModel, EventModel
+from kappashiftapp.models import MemberModel
 
 # Create your views here.
 
@@ -67,4 +68,11 @@ def timetableregister(request, pk):
 
 
 def entryfunc(request):
-    return render(request, 'entry.html')
+    template_name = 'entry.html'
+    object_list = MemberModel.objects.filter(member_type='選手')
+    if request.method == 'POST':
+        name = request.POST.getlist('name')
+        distance = request.POST.getlist('distance')
+        style = request.POST.getlist('style')
+
+    return render(request, 'entry.html', context={"object_list": object_list})

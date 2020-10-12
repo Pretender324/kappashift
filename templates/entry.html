@@ -22,9 +22,12 @@
             <th>泳法</th>
         </tr>
         <form action="">
+        {% for item in object_list %}
+            
+        
         <tr>
-            <td>name</td>
-            <td>sex</td>
+            <td>{{item.last_name}} {{item.first_name}}</td>
+            <td>{{item.sex}}</td>
             <td><input type="number" name="" class="form-control"></td>
             <td>
                 <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
@@ -43,6 +46,7 @@
             </div>
             </td>
         </tr>
+        {% endfor %}
         </form>
     </table>
 </div>
