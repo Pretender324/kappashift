@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">シフト作成</h1>
+        <p class="lead">ビデオ・計時に一年生（上級生）を配置してください。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <table class="table mt-5" id="table">
+        <tr>
+            <th>名前</th>
+            <th>種目1</th>
+            <th>種目2</th>
+            <th>種目3</th>
+        </tr>
+    </table>
+</div>
+
+{% endblock content %}

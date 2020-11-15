@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">エントリーデータ登録</h1>
+        <p class="lead">各選手のエントリー種目を登録してください。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container pb-5">
+    <form action="" method="POST">{% csrf_token %}
+    <table class="table mt-5" id="table">
+        <tr>
+            <th>名前</th>
+            <th>性別</th>
+            <th>距離</th>
+            <th>泳法</th>
+        </tr>
+        
+        {% for item in object_list %}
+            <tr>
+                <td>{{item.last_name}} {{item.first_name}}</td>
+                <td>{{item.sex}}</td>
+                <td><input type="number" name="distance" class="form-control"></td>
+                <td>
+                    <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
+                        <option value="Fr">Fr</option>
+                        <option value="Ba">Ba</option>
+                        <option value="Br">Br</option>
+                        <option value="Fly">Fly</option>
+                        <option value="IM">IM</option>
+                        <option value="FR">FR</option>
+                        <option value="MR">MR</option>
+                    </select>
+                </td>
+                <td>
+                <div class="form-add" id="form_add">
+                    <span class="add btn btn-info" title="Add">+</span>
+                </div>
+                </td>
+            </tr>
+            <input type="hidden" name="first_name" value={{item.first_name}}>
+            <input type="hidden" name="last_name" value={{item.last_name}}>
+            <input type="hidden" name="sex" value={{item.sex}}>
+        {% endfor %}
+        
+        
+    </table>
+    <input type="submit" value="登録" class="form-control btn btn-primary">
+    </form>
+</div>
+
+{% endblock content %}
