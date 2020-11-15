@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib import messages
-from .models import CompetitionModel, ShiftModel, EventModel
+from .models import CompetitionModel, ShiftModel, EventModel, EntryModel
 from kappashiftapp.models import MemberModel
 
 # Create your views here.
@@ -64,15 +64,30 @@ def timetableregister(request, pk):
             p = ShiftModel(competition=competition,
                            event=event, start_time=item[3])
             p.save()
-        return redirect('shift:entry')
+        return redirect('shift:entry', pk=pk)
 
 
-def entryfunc(request):
+def entryfunc(request, pk):
+    # pk:試合ID
     template_name = 'entry.html'
     object_list = MemberModel.objects.filter(member_type='選手')
     if request.method == 'POST':
-        name = request.POST.getlist('name')
+        first_name = request.POST.getlist('first_name')
+        last_name = request.POST.getlist('last_name')
+        sex = request.POST.getlist('sex')
         distance = request.POST.getlist('distance')
         style = request.POST.getlist('style')
+        competition = CompetitionModel.objects.get(pk=pk)
+        for item in zip(first_name, last_name, sex, distance, style):
+            member = MemberModel.objects.get(
+                first_name=item[0], last_name=item[1])
+
+            event = EventModel.objects.filter(
+                sex=item[2].replace('男', 'M').replace('女', 'W'), distance=item[3], style=item[4]).get()
+            shift = ShiftModel.objects.filter(
+                competition=competition, event=event).get()
+            e = EntryModel(member=member, shift=shift)
+            e.save()
+        return redirect('/')
 
     return render(request, 'entry.html', context={"object_list": object_list})

@@ -8,5 +8,5 @@ urlpatterns = [
     path('timetable/<int:pk>', timetableupdatefunc, name='timetable'),
     path('timetable/<int:pk>/suggest', timetablesuggest, name='suggest'),
     path('timetable/<int:pk>/register', timetableregister, name='register'),
-    path('entry/', entryfunc, name="entry")
+    path('entry/<int:pk>', entryfunc, name="entry")
 ]
