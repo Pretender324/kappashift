@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4">過去シフト閲覧</h1>
+        <p class="lead">過去に作成したシフトを閲覧できます。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    {% for item in shift %}
+    <p>{{item}}</p>
+    {% endfor %}
+</div>
+
+{% endblock content %}

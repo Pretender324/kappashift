@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import CompetitionCreate, timetableupdatefunc, timetablesuggest, timetableregister, entryfunc
+from .views import CompetitionCreate, timetableupdatefunc, timetablesuggest, timetableregister, entryfunc, HistoryView, HistoryDetail
 
 
 app_name = 'shift'
@@ -8,5 +8,7 @@ urlpatterns = [
     path('timetable/<int:pk>', timetableupdatefunc, name='timetable'),
     path('timetable/<int:pk>/suggest', timetablesuggest, name='suggest'),
     path('timetable/<int:pk>/register', timetableregister, name='register'),
-    path('entry/<int:pk>', entryfunc, name="entry")
+    path('entry/<int:pk>', entryfunc, name="entry"),
+    path('history', HistoryView.as_view(), name='history'),
+    path('history/<int:pk>', HistoryDetail.as_view(), name='historydetail')
 ]

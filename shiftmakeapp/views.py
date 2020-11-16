@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView, DetailView
 from django.contrib import messages
 from .models import CompetitionModel, ShiftModel, EventModel, EntryModel
 from kappashiftapp.models import MemberModel
@@ -91,3 +91,25 @@ def entryfunc(request, pk):
         return redirect('/')
 
     return render(request, 'entry.html', context={"object_list": object_list})
+
+
+class HistoryView(ListView):
+    template_name = 'history.html'
+    model = CompetitionModel
+    fields = ('name', 'year', 'start_date', 'end_date', 'days')
+
+    def get_queryset(self):
+        return CompetitionModel.objects.order_by('-year', '-start_date')
+
+
+class HistoryDetail(DetailView):
+    template_name = 'historydetail.html'
+    model = CompetitionModel
+
+    def get_context_data(self, **kwargs):
+        # get_context_data をオーバーライドした例
+        # テンプレートに渡すコンテキストに任意の変数を追加できる
+        context = super(HistoryDetail, self).get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        context['shift'] = ShiftModel.objects.filter(competition_id=pk)
+        return context

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4">過去シフト閲覧</h1>
+        <p class="lead">過去に作成したシフトを閲覧できます。</p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <table class="table">
+        <tr>
+            <th>日程</th>
+            <th>大会名</th>
+        </tr>
+        {% for item in object_list %}
+            <tr>
+                <td>{{item.start_date}}</td>
+                <td><a href="{% url 'shift:historydetail' item.pk %}">{{item.name}}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock content %}
