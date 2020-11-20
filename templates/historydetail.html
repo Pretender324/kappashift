@@ -5,6 +5,10 @@
     <div class="container p-5">
         <h1 class="display-4">過去シフト閲覧</h1>
         <p class="lead">過去に作成したシフトを閲覧できます。</p>
+        <p>表示中のシフト：{{object}}</p>
+        <p><a href="{% url 'shift:history' %}">シフト履歴一覧に戻る</a></p>
+        <p><a href="{% url 'top' %}">TOPに戻る</a></p>
+        
     </div>
 </header>
 {% endblock header %}
@@ -12,9 +16,26 @@
 {% block content %}
 
 <div class="container">
-    {% for item in shift %}
-    <p>{{item}}</p>
-    {% endfor %}
+    <table class="table">
+        <tr>
+            <th>Index</th>
+            <th>種目</th>
+            <th>開始時間</th>
+            <th>出場人数</th>
+            <th>ビデオ</th>
+            <th>計時役員</th>
+        </tr>
+        {% for item in shift %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{item.event}}</td>
+            <td>{{item.start_time}}</td>
+            <td>{{item.member_count}}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 
 {% endblock content %}

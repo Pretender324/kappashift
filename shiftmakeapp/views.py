@@ -112,4 +112,5 @@ class HistoryDetail(DetailView):
         context = super(HistoryDetail, self).get_context_data(**kwargs)
         pk = self.kwargs['pk']
         context['shift'] = ShiftModel.objects.filter(competition_id=pk)
+        print(context)
         return context
