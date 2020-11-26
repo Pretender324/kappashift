@@ -34,18 +34,21 @@ class EventModel(models.Model):
 
 class ShiftModel(models.Model):
     competition = models.ForeignKey(
-        'CompetitionModel', on_delete=models.CASCADE)
+        'CompetitionModel', on_delete=models.CASCADE, related_name='shift')
     event = models.ForeignKey('EventModel', on_delete=models.CASCADE)
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
-    member_count = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.competition) + str(self.event)
 
+    def member_count(self):
+        return self.entry.count()
+
 
 class EntryModel(models.Model):
     member = models.ForeignKey(MemberModel, on_delete=models.CASCADE)
-    shift = models.ForeignKey('ShiftModel', on_delete=models.CASCADE)
+    shift = models.ForeignKey(
+        'ShiftModel', on_delete=models.CASCADE, related_name='entry')
 
     def __str__(self):
         return str(self.shift) + str(self.member)
