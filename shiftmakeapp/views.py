@@ -124,4 +124,4 @@ def shiftcreate(request, pk):
     suggestion = Suggest(object_list, freshman,
                          competition, before=60, after=30)
 
-    return render(request, 'shiftcreate.html', context={"object_list": object_list, "competition": competition})
+    return render(request, 'shiftcreate.html', context={"object_list": object_list, "competition": competition, "freshman": freshman})

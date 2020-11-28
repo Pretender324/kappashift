@@ -59,3 +59,16 @@ $(function () {
 
     })
 })
+
+//出場人数0の種目のビデオのセレクトボックスを無効化
+$(function () {
+    const n = $('#form-shift').data["length"];
+
+    for (let i = 1; i <= n; i++) {
+        let count = $('#member-count-' + i).data("count");
+        if (count == 0) {
+            $('#video-select-' + i).remove();
+        }
+
+    }
+})

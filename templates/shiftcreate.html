@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load widget_tweaks %}
+{% load static %}
 
 {% block header %}
 <header class="jumbotron jumbotron-fluid">
@@ -16,7 +17,7 @@
 {% block content %}
 
 <div class="container">
-    <form action="" method="POST">
+    <form action="" method="POST" id="form-shift" data-length="{{object_list|length}}">
     <table class="table mt-5" id="table">
         <tr>
             <th>Index</th>
@@ -31,9 +32,21 @@
                 <td>{{forloop.counter}}</td>
                 <td>{{item.event}}</td>
                 <td>{{item.start_time}}</td>
-                <td>{{item.member_count}}</td>
-                <td></td>
-                <td></td>
+                <td><p id="member-count-{{forloop.counter}}" data-count="{{item.member_count}}">{{item.member_count}}</p></td>
+                <td>
+                    <select name="video" id="video-select-{{forloop.counter}}" class="form-control">
+                        {% for m in freshman %}
+                            <option value="{{m}}">{{m}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select name="" id="" class="form-control">
+                        {% for m in freshman %}
+                            <option value="{{m}}">{{m}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
             </tr>
         {% endfor %}
     </table>
@@ -41,3 +54,7 @@
 </div>
 
 {% endblock content %}
+
+{% block script %}
+    <script src="{% static 'app.js' %}"></script>
+{% endblock script %}
