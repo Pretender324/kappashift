@@ -17,7 +17,7 @@
 {% block content %}
 
 <div class="container">
-    <form action="" method="POST" id="form-shift" data-length="{{object_list|length}}">
+    <form action="" method="POST" id="form-shift" data-length="{{object_list|length}}">{% csrf_token %}
     <table class="table mt-5" id="table">
         <tr>
             <th>Index</th>
@@ -36,20 +36,21 @@
                 <td>
                     <select name="video" id="video-select-{{forloop.counter}}" class="form-control">
                         {% for m in freshman %}
-                            <option value="{{m}}">{{m}}</option>
+                            <option value="{{m.id}}">{{m}}</option>
                         {% endfor %}
                     </select>
                 </td>
                 <td>
-                    <select name="" id="" class="form-control">
+                    <select name="timekeep" id="" class="form-control">
                         {% for m in freshman %}
-                            <option value="{{m}}">{{m}}</option>
+                            <option value="{{m.id}}">{{m}}</option>
                         {% endfor %}
                     </select>
                 </td>
             </tr>
         {% endfor %}
     </table>
+    <p><input type="submit" class="form-control" value="上記の内容で登録"></p>
     </form>
 </div>
 

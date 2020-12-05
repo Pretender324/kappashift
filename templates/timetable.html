@@ -26,7 +26,7 @@
         </form>
     </div>
     <table class="table mt-5" id="table">
-        <tr>
+        <tr id="form-row[0]">
             <th>性別</th>
             <th>距離</th>
             <th>泳法</th>
@@ -34,15 +34,15 @@
         </tr>
         <form action="{% url 'shift:register' pk %}" method="post" id="form-table" data-length="{{ object_list|length }}">{% csrf_token %}
             {% for item in object_list %}
-                <tr id="form-row">
+                <tr id="form-row[{{forloop.counter}}]">
                     <td>
                         <select name="sex" for="inputSex"　placeholder="{{item.event.sex}}" class="form-control sex">
                             <option value="M">M</option>
-                            <option value="M">W</option>
+                            <option value="W">W</option>
                         </select>
                     </td>
                     <td>
-                        <input type="number" name="distance" for="inputDistance" value="{{item.event.distance}}" class="form-control distance">
+                        <input type="number" name="distance" for="inputDistance" placeholder="{{item.event.distance}}" class="form-control distance">
                     </td>
                     <td>
                     <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
@@ -55,7 +55,7 @@
                         <option value="MR">MR</option>
                     </select></td>
                     <td>
-                        <input type="datetime" name="start_time" value="{{item.start_time|date:"h:i"}}" class="form-control start_time">
+                        <input type="datetime" name="start_time" placeholder="{{item.start_time|date:"h:i"}}" class="form-control start_time">
                     </td>
                 </tr>
             {% endfor %}
@@ -89,5 +89,29 @@
 {% endblock content %}
 
 {% block script %}
-<script src="{% static 'app.js' %}"></script>
+<script>
+    $(function () {
+        var frm_cnt = $("#form-table").data("length");
+        console.log(frm_cnt)
+
+        $(document).on('click', 'span.add', function () {
+            var frm_prv = $('tr')[frm_cnt];
+            console.log(frm_prv);
+
+            frm_cnt++;
+            console.log(frm_cnt);
+
+            var frm_nxt = $('<tr id=form-row['+ frm_cnt +']></tr>')
+            frm_nxt.append('<td><select name="sex" for="inputSex" class="form-control sex"><option value="M">M</option><option value="W">W</option></select></td>');
+            frm_nxt.append('<td><input type="number" name="distance" for="inputDistance" class="form-control distance"></td>');
+            frm_nxt.append('<td><select name="style" for="inputStyle" class="form-control style"><option value="Fr">Fr</option><option value="Ba">Ba</option><option value="Br">Br</option><option value="Fly">Fly</option><option value="IM">IM</option><option value="FR">FR</option><option value="MR">MR</option></select></td>');
+            frm_nxt.append('<td><input type="datetime" name="start_time" class="form-control start_time"></td>');
+
+            frm_nxt.insertAfter(frm_prv);
+
+        })
+
+        
+    })
+    </script>
 {% endblock script %}
