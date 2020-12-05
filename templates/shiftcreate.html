@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+{% load static %}
+
+{% block header %}
+<header class="jumbotron jumbotron-fluid">
+    <div class="container p-5">
+        <h1 class="display-4 mb-3">シフト作成</h1>
+        <p class="lead">ビデオ・計時に一年生（上級生）を配置してください。</p>
+        <p>作成中の大会：{{competition}}</p>
+        <p><a href="{% url 'top' %}">TOPに戻る</a></p>
+    </div>
+</header>
+{% endblock header %}
+
+{% block content %}
+
+<div class="container">
+    <form action="" method="POST" id="form-shift" data-length="{{object_list|length}}">{% csrf_token %}
+    <table class="table mt-5" id="table">
+        <tr>
+            <th>Index</th>
+            <th>種目</th>
+            <th>開始時間</th>
+            <th>出場人数</th>
+            <th>ビデオ</th>
+            <th>計時役員</th>
+        </tr>
+        {% for item in object_list %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{item.event}}</td>
+                <td>{{item.start_time}}</td>
+                <td><p id="member-count-{{forloop.counter}}" data-count="{{item.member_count}}">{{item.member_count}}</p></td>
+                <td>
+                    <select name="video" id="video-select-{{forloop.counter}}" class="form-control">
+                        {% for m in freshman %}
+                            <option value="{{m.id}}">{{m}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                <td>
+                    <select name="timekeep" id="" class="form-control">
+                        {% for m in freshman %}
+                            <option value="{{m.id}}">{{m}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p><input type="submit" class="form-control" value="上記の内容で登録"></p>
+    </form>
+</div>
+
+{% endblock content %}
+
+{% block script %}
+    <script src="{% static 'app.js' %}"></script>
+{% endblock script %}

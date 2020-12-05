@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DetailView
+from django.views.generic import CreateView, ListView, DetailView, UpdateView
 from django.contrib import messages
 from .models import CompetitionModel, ShiftModel, EventModel, EntryModel
 from kappashiftapp.models import MemberModel
+from .suggest import Suggest
 
 # Create your views here.
 
@@ -52,6 +53,7 @@ def timetablesuggest(request, pk):
 
 def timetableregister(request, pk):
     if request.method == 'POST':
+        print(request.POST)
         sex = request.POST.getlist('sex')
         distance = request.POST.getlist('distance')
         style = request.POST.getlist('style')
@@ -59,6 +61,7 @@ def timetableregister(request, pk):
         competition = CompetitionModel.objects.get(pk=pk)
         ShiftModel.objects.filter(competition=competition).delete()
         for item in zip(sex, distance, style, start_time):
+            print(item)
             event = EventModel.objects.filter(
                 sex=item[0], distance=item[1], style=item[2]).get()
             p = ShiftModel(competition=competition,
@@ -88,7 +91,7 @@ def entryfunc(request, pk):
                 competition=competition, event=event).get()
             e = EntryModel(member=member, shift=shift)
             e.save()
-        return redirect('/')
+        return redirect('shift:create', pk=pk)
 
     return render(request, 'entry.html', context={"object_list": object_list})
 
@@ -112,5 +115,24 @@ class HistoryDetail(DetailView):
         context = super(HistoryDetail, self).get_context_data(**kwargs)
         pk = self.kwargs['pk']
         context['shift'] = ShiftModel.objects.filter(competition_id=pk)
-        print(context)
         return context
+
+
+def shiftcreate(request, pk):
+    template_name = 'shiftcreate.html'
+    object_list = ShiftModel.objects.filter(competition_id=pk)
+    competition = CompetitionModel.objects.get(pk=pk)
+    freshman = MemberModel.objects.filter(grade=1)
+    suggestion = Suggest(object_list, freshman,
+                         competition, before=60, after=30)
+
+    if request.method == "POST":
+        video = request.POST.getlist('video')
+        timekeep = request.POST.getlist('timekeep')
+        for shift, v, t in zip(object_list, video, timekeep):
+            shift.video = MemberModel.objects.get(pk=v)
+            shift.timekeep = MemberModel.objects.get(pk=t)
+            shift.save()
+        return redirect('/')
+
+    return render(request, 'shiftcreate.html', context={"object_list": object_list, "competition": competition, "freshman": freshman})
