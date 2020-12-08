@@ -25,40 +25,36 @@
             <input type="submit" value="表示" class="form-control m-3">
         </form>
     </div>
-    <table class="table mt-5" id="table">
-        <tr id="form-row[0]">
-            <th>性別</th>
-            <th>距離</th>
-            <th>泳法</th>
-            <th>開始時刻</th>
-        </tr>
-        <form action="{% url 'shift:register' pk %}" method="post" id="form-table" data-length="{{ object_list|length }}">{% csrf_token %}
+    <form action="{% url 'shift:register' pk %}" method="post" id="form" data-length="{{ object_list|length }}">
+    {% csrf_token %}
+    {{ formset.management_form }}
+        <table class="table mt-5" id="table">
+            <thead>
+                <tr>
+                    <th>性別</th>
+                    <th>距離</th>
+                    <th>種目</th>
+                    <th>開始時刻</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
             {% for item in object_list %}
-                <tr id="form-row[{{forloop.counter}}]">
+                <tr class="form-row">
+                {% for field in formset.form %}
                     <td>
-                        <select name="sex" for="inputSex"　placeholder="{{item.event.sex}}" class="form-control sex">
-                            <option value="M">M</option>
-                            <option value="W">W</option>
-                        </select>
+                        {{field|add_class:"form-control"}}
                     </td>
-                    <td>
-                        <input type="number" name="distance" for="inputDistance" placeholder="{{item.event.distance}}" class="form-control distance">
-                    </td>
-                    <td>
-                    <select name="style" for="inputStyle" placeholder="{{item.event.style}}" class="form-control style">
-                        <option value="Fr">Fr</option>
-                        <option value="Ba">Ba</option>
-                        <option value="Br">Br</option>
-                        <option value="Fly">Fly</option>
-                        <option value="IM">IM</option>
-                        <option value="FR">FR</option>
-                        <option value="MR">MR</option>
-                    </select></td>
-                    <td>
-                        <input type="datetime" name="start_time" placeholder="{{item.start_time|date:"h:i"}}" class="form-control start_time">
-                    </td>
+                {% endfor %}
                 </tr>
             {% endfor %}
+            <tr class="form-empty">
+                {% for field in formset.form %}
+                    <td>
+                        {{field|add_class:"form-control"}}
+                    </td>
+                {% endfor %}
+            </tr>
             <tr>
                 <td></td>
                 <td></td>
@@ -81,8 +77,9 @@
                     </div>
                 </td>
             </tr>
-        </form>
-    </table>
+            </tbody>
+        </table>
+    </form>
 </div>
 
 
@@ -91,25 +88,28 @@
 {% block script %}
 <script>
     $(function () {
-        var frm_cnt = $("#form-table").data("length");
-        console.log(frm_cnt)
-
         $(document).on('click', 'span.add', function () {
-            var frm_prv = $('tr')[frm_cnt];
-            console.log(frm_prv);
-
-            frm_cnt++;
-            console.log(frm_cnt);
-
-            var frm_nxt = $('<tr id=form-row['+ frm_cnt +']></tr>')
-            frm_nxt.append('<td><select name="sex" for="inputSex" class="form-control sex"><option value="M">M</option><option value="W">W</option></select></td>');
-            frm_nxt.append('<td><input type="number" name="distance" for="inputDistance" class="form-control distance"></td>');
-            frm_nxt.append('<td><select name="style" for="inputStyle" class="form-control style"><option value="Fr">Fr</option><option value="Ba">Ba</option><option value="Br">Br</option><option value="Fly">Fly</option><option value="IM">IM</option><option value="FR">FR</option><option value="MR">MR</option></select></td>');
-            frm_nxt.append('<td><input type="datetime" name="start_time" class="form-control start_time"></td>');
-
-            frm_nxt.insertAfter(frm_prv);
-
+            console.log("test");
+            frm_emp = $(".form-empty").last();
+            frm_nxt = frm_emp.clone();
+            frm_nxt.insertAfter(frm_emp);
         })
+
+        $('#form').submit(function() {  // フォームを送信する直前
+
+            // フォームの入力欄の数を指定する
+            const text = $('.form-row');
+            $('[name=form-TOTAL_FORMS]').val(text.length+1);
+
+            // それぞれの入力欄の__prefix__をindexで置換する
+            text.each(function(index, element){
+                html = $(element).html().replace(/__prefix__/g, index);
+                value = $(element).find("input[type='text']").val();  // valueが消えるので保存しておく
+                $(element).html(html);
+                $(element).find("input[type='text']").val(value);
+        });
+
+    });
     })
     </script>
 {% endblock script %}
