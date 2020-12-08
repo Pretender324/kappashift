@@ -39,15 +39,29 @@
                 </tr>
             </thead>
             <tbody>
-            {% for item in object_list %}
-                <tr class="form-row">
-                {% for field in formset.form %}
-                    <td>
-                        {{field|add_class:"form-control"}}
-                    </td>
+            {% if object_list %}
+                {% for item in object_list %}
+                    
+                    <tr class="">
+                        <td>
+                            {% if item.event.sex == "M"%}
+                                {{formset.form.sex|add_class:"form-control"|attr:"placeholder:男"}}
+                            {% else %}
+                                {{formset.form.sex|add_class:"form-control"|attr:"placeholder:女"}}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{formset.form.distance|add_class:"form-control"}}
+                        </td>
+                        <td>
+                            {{formset.form.style|add_class:"form-control"}}
+                        </td>
+                        <td>
+                            {{formset.form.start_time|add_class:"form-control"}}
+                        </td>
+                    </tr>
                 {% endfor %}
-                </tr>
-            {% endfor %}
+            {% endif %}
             <tr class="form-empty">
                 {% for field in formset.form %}
                     <td>
