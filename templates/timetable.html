@@ -42,27 +42,39 @@
             {% if object_list %}
                 {% for item in object_list %}
                     
-                    <tr class="">
+                    <tr class="field">
                         <td>
-                            {% if item.event.sex == "M"%}
-                                {{formset.form.sex|add_class:"form-control"|attr:"placeholder:男"}}
-                            {% else %}
-                                {{formset.form.sex|add_class:"form-control"|attr:"placeholder:女"}}
-                            {% endif %}
+                            <select name="sex" id="id_sex" class="form-control">
+                            {% for p,q in formset.form.fields.sex.choices %}
+                                {% if item.event.sex == p %}
+                                    <option value="{{p}}" selected>{{q}}</option>
+                                {% else %}
+                                    <option value="{{p}}">{{q}}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
                         </td>
                         <td>
-                            {{formset.form.distance|add_class:"form-control"}}
+                            <input type="number" name="distance" value="{{item.event.distance}}" class="form-control" required id="id_distance">
                         </td>
                         <td>
-                            {{formset.form.style|add_class:"form-control"}}
+                            <select name="style" id="id_style" class="form-control">
+                            {% for p,q in formset.form.fields.style.choices %}
+                                {% if item.event.style == p %}
+                                    <option value="{{p}}" selected>{{q}}</option>
+                                {% else %}
+                                    <option value="{{p}}">{{q}}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
                         </td>
                         <td>
-                            {{formset.form.start_time|add_class:"form-control"}}
+                            <input type="text" name="start_time" value="{{item.start_time|date:"h:i"}}" class="form-control" required id="id_start_time">
                         </td>
                     </tr>
                 {% endfor %}
             {% endif %}
-            <tr class="form-empty">
+            <tr class="form-empty field">
                 {% for field in formset.form %}
                     <td>
                         {{field|add_class:"form-control"}}
@@ -112,8 +124,9 @@
         $('#form').submit(function() {  // フォームを送信する直前
 
             // フォームの入力欄の数を指定する
-            const text = $('.form-row');
-            $('[name=form-TOTAL_FORMS]').val(text.length+1);
+            const text = $('.field');
+            console.log(text);
+            $('[name=form-TOTAL_FORMS]').val(text.length);
 
             // それぞれの入力欄の__prefix__をindexで置換する
             text.each(function(index, element){
