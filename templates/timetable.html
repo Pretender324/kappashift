@@ -131,9 +131,15 @@
             // それぞれの入力欄の__prefix__をindexで置換する
             text.each(function(index, element){
                 html = $(element).html().replace(/__prefix__/g, index);
-                value = $(element).find("input[type='text']").val();  // valueが消えるので保存しておく
+                value_sex = $(element).find("[name='sex']").val();
+                value_dist = $(element).find("input[name='distance']").val();
+                value_style = $(element).find("[name='style']").val();
+                value_time = $(element).find("input[name='start_time']").val();   // valueが消えるので保存しておく
                 $(element).html(html);
-                $(element).find("input[type='text']").val(value);
+                $(element).find("[name='sex']").val(value_sex);
+                $(element).find("input[name='distance']").val(value_dist);
+                $(element).find("[name='style']").val(value_style);
+                $(element).find("input[name='start_time']").val(value_time);
         });
 
     });
