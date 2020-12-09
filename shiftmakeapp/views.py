@@ -5,6 +5,8 @@ from django.contrib import messages
 from .models import CompetitionModel, ShiftModel, EventModel, EntryModel
 from kappashiftapp.models import MemberModel
 from .suggest import Suggest
+from .forms import TimetableForm
+from django.forms import formset_factory
 
 # Create your views here.
 
@@ -40,15 +42,19 @@ class CompetitionCreate(CreateView):
 
 def timetableupdatefunc(request, pk):
     suggest = CompetitionModel.objects.all()
-    return render(request, 'timetable.html', {'suggest': suggest, 'pk': pk})
+    formset = formset_factory(TimetableForm)
+    print(formset.form)
+    return render(request, 'timetable.html', {'suggest': suggest, 'pk': pk, 'formset': formset})
 
 
 def timetablesuggest(request, pk):
+    formset = formset_factory(TimetableForm)
+
     if request.method == 'POST':
         competition = request.POST['competition']
         object_list = ShiftModel.objects.filter(competition__id=competition)
     suggest = CompetitionModel.objects.all()
-    return render(request, 'timetable.html', {'suggest': suggest, 'pk': pk, 'object_list': object_list})
+    return render(request, 'timetable.html', {'suggest': suggest, 'pk': pk, 'object_list': object_list, 'formset': formset})
 
 
 def timetableregister(request, pk):
