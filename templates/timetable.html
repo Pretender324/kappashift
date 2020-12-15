@@ -31,10 +31,12 @@
         <table class="table mt-5" id="table">
             <thead>
                 <tr>
+                    <th>No.</th>
                     <th>性別</th>
                     <th>距離</th>
                     <th>種目</th>
                     <th>開始時刻</th>
+                    <th></th>
                     <th></th>
                 </tr>
             </thead>
@@ -42,7 +44,8 @@
             {% if object_list %}
                 {% for item in object_list %}
                     
-                    <tr class="field">
+                    <tr class="field field-{{forloop.counter}}">
+                        <td>{{forloop.counter}}</td>
                         <td>
                             <select name="sex" id="id_sex" class="form-control">
                             {% for p,q in formset.form.fields.sex.choices %}
@@ -71,15 +74,28 @@
                         <td>
                             <input type="text" name="start_time" value="{{item.start_time|date:"h:i"}}" class="form-control" required id="id_start_time">
                         </td>
+                        <td></td>
+                        <td>
+                            <div class="form-delete" id="form_delete">
+                                <span class="delete btn btn-danger" title="Delete" data-count="{{forloop.counter}}">×</span>
+                            </div>
+                        </td>
                     </tr>
                 {% endfor %}
             {% endif %}
-            <tr class="form-empty field">
+            <tr class="form-empty field field-{{object_list|length|add:"1"}}">
+                <td>{{object_list|length|add:"1"}}</td>
                 {% for field in formset.form %}
                     <td>
                         {{field|add_class:"form-control"}}
                     </td>
                 {% endfor %}
+                <td></td>
+                <td>
+                    <div class="form-delete" id="form_delete">
+                        <span class="delete btn btn-danger" title="Delete" data-count="{{object_list|length|add:"1"}}">×</span>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td></td>
@@ -115,10 +131,14 @@
 <script>
     $(function () {
         $(document).on('click', 'span.add', function () {
-            console.log("test");
             frm_emp = $(".form-empty").last();
             frm_nxt = frm_emp.clone();
             frm_nxt.insertAfter(frm_emp);
+        })
+
+        $(document).on('click', 'span.delete', function () {
+            cnt = $(this).data("count");
+            $('.field-' + cnt).remove();
         })
 
         $('#form').submit(function() {  // フォームを送信する直前
