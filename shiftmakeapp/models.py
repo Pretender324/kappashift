@@ -38,9 +38,9 @@ class ShiftModel(models.Model):
     event = models.ForeignKey('EventModel', on_delete=models.CASCADE)
     start_time = models.TimeField(auto_now=False, auto_now_add=False)
     video = models.ForeignKey(
-        MemberModel, on_delete=models.CASCADE, related_name='video_shift', null=True)
+        MemberModel, on_delete=models.CASCADE, related_name='video_shift', null=True, blank=True)
     timekeep = models.ForeignKey(
-        MemberModel, on_delete=models.CASCADE, related_name='timekeep_shift', null=True)
+        MemberModel, on_delete=models.CASCADE, related_name='timekeep_shift', null=True, blank=True)
 
     def __str__(self):
         return str(self.competition) + str(self.event)
